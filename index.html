@@ -65,6 +65,112 @@
             position: relative;
             z-index: 1;
         }
+
+        @media (max-width: 768px) {
+        .nav-links {
+            display: none; /* Hide desktop navigation */
+        }
+
+        /* Hamburger Menu */
+        .mobile-menu-toggle {
+            display: block;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            z-index: 100;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-nav.active {
+            transform: translateX(0);
+        }
+
+        .mobile-nav a {
+            margin: 15px 0;
+            font-size: 1.2rem;
+        }
+    }
+
+    /* Responsive Hero Section */
+    @media (max-width: 768px) {
+        #home {
+            height: auto;
+            padding: 100px 0 50px;
+        }
+
+        #home .container {
+            flex-direction: column;
+        }
+
+        #home .hero-content,
+        #home .hero-image {
+            width: 100%;
+            text-align: center;
+        }
+
+        .hero-image {
+            margin-top: 30px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero-content h2 {
+            font-size: 1.8rem;
+        }
+
+        .social-icons {
+            justify-content: center;
+        }
+    }
+
+    /* Responsive Sections */
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 15px;
+        }
+
+        section {
+            padding: 40px 0;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+        }
+
+        .grid {
+            grid-template-columns: 1fr;
+        }
+
+        .experience-card,
+        .education-card,
+        .project-card {
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Responsive Image */
+    .hero-image img {
+        max-width: 100%;
+        height: auto;
+    }
+
     </style>
 </head>
 <body class="text-gray-800 font-sans overflow-x-hidden">
@@ -580,6 +686,51 @@
         // Add this line to initialize experience animations
         initExperienceAnimations();
         initEducationAnimations()
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile Navigation Toggle
+        const mobileMenuToggle = document.createElement('button');
+        mobileMenuToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        `;
+        mobileMenuToggle.classList.add('mobile-menu-toggle', 'md:hidden', 'block', 'bg-transparent', 'border-none', 'focus:outline-none');
+
+        const nav = document.querySelector('nav .container');
+        nav.appendChild(mobileMenuToggle);
+
+        const mobileNav = document.createElement('div');
+        mobileNav.classList.add('mobile-nav');
+        
+        // Clone navigation links
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks) {
+            mobileNav.innerHTML = navLinks.innerHTML;
+        }
+
+        document.body.appendChild(mobileNav);
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileNav.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+            });
+        });
+
+        // Add viewport meta tag for proper mobile rendering
+        const viewportMeta = document.createElement('meta');
+        viewportMeta.name = 'viewport';
+        viewportMeta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        document.head.appendChild(viewportMeta);
     });
     </script>
 </body>
