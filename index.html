@@ -81,13 +81,13 @@
         }
 
         .mobile-nav {
+            display: none; /* Hide by default */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.95);
-            display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -95,10 +95,10 @@
             transform: translateX(100%);
             transition: transform 0.3s ease-in-out;
         }
-
+        
         .mobile-nav.active {
-            display: flex;
-    transform: translateX(0);
+            display: flex; /* Show only when toggled */
+            transform: translateX(0);
         }
 
         .mobile-nav a {
