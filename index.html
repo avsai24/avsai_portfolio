@@ -65,6 +65,57 @@
             position: relative;
             z-index: 1;
         }
+        @media (max-width: 768px) {
+    #home {
+        height: auto;
+        padding: 100px 0 50px;
+    }
+
+    #home .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #home .hero-content,
+    #home .hero-image {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-image {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .hero-image .w-64 {
+        width: 250px;
+        height: 250px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    .hero-content h2 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    /* Remove bottom navbar */
+    .mobile-nav {
+        display: none !important;
+    }
+}
     </style>
 </head>
 <body class="text-gray-800 font-sans overflow-x-hidden">
@@ -583,77 +634,127 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Navigation Toggle
-    const nav = document.querySelector('nav .container');
-    
-    // Create mobile menu toggle button
-    const mobileMenuToggle = document.createElement('button');
-    mobileMenuToggle.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-    `;
-    mobileMenuToggle.classList.add('mobile-menu-toggle', 'md:hidden', 'block', 'bg-transparent', 'border-none', 'focus:outline-none', 'absolute', 'right-4', 'top-4', 'z-50');
-
-    // Create mobile navigation container
-    const mobileNav = document.createElement('div');
-    mobileNav.classList.add('mobile-nav');
-
-    // Clone navigation links
-    const navLinks = document.querySelector('.nav-links');
-    if (navLinks) {
-        // Create a container for mobile nav links with proper styling
-        const mobileNavLinksContainer = document.createElement('div');
-        mobileNavLinksContainer.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'space-y-6');
+    // Only create mobile navigation if not already exists
+    if (!document.querySelector('.mobile-menu-toggle')) {
+        const nav = document.querySelector('nav .container');
         
-        // Clone and style each link
-        navLinks.querySelectorAll('a').forEach(link => {
-            const mobileLink = link.cloneNode(true);
-            mobileLink.classList.add('text-xl', 'text-gray-800', 'hover:text-blue-600', 'transition');
+        // Create mobile menu toggle button
+        const mobileMenuToggle = document.createElement('button');
+        mobileMenuToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        `;
+        mobileMenuToggle.classList.add(
+            'mobile-menu-toggle', 
+            'md:hidden', 
+            'block', 
+            'bg-transparent', 
+            'border-none', 
+            'focus:outline-none', 
+            'absolute', 
+            'right-4', 
+            'top-4', 
+            'z-50'
+        );
+
+        // Create mobile navigation container
+        const mobileNav = document.createElement('div');
+        mobileNav.classList.add(
+            'mobile-nav', 
+            'fixed', 
+            'inset-0', 
+            'bg-white', 
+            'z-40', 
+            'transform', 
+            'translate-x-full', 
+            'transition-transform', 
+            'duration-300', 
+            'ease-in-out'
+        );
+
+        // Clone navigation links
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks) {
+            const mobileNavLinksContainer = document.createElement('div');
+            mobileNavLinksContainer.classList.add(
+                'flex', 
+                'flex-col', 
+                'items-center', 
+                'justify-center', 
+                'h-full', 
+                'space-y-6'
+            );
             
-            // Special styling for contact link
-            if (mobileLink.textContent === 'Contact') {
-                mobileLink.classList.remove('bg-blue-600', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-700');
-                mobileLink.classList.add('bg-blue-100', 'text-blue-600', 'px-6', 'py-2', 'rounded-full', 'hover:bg-blue-200');
-            }
-            
-            mobileNavLinksContainer.appendChild(mobileLink);
+            navLinks.querySelectorAll('a').forEach(link => {
+                const mobileLink = link.cloneNode(true);
+                mobileLink.classList.add(
+                    'text-xl', 
+                    'text-gray-800', 
+                    'hover:text-blue-600', 
+                    'transition'
+                );
+                
+                if (mobileLink.textContent === 'Contact') {
+                    mobileLink.classList.remove(
+                        'bg-blue-600', 
+                        'text-white', 
+                        'px-4', 
+                        'py-2', 
+                        'rounded-full', 
+                        'hover:bg-blue-700'
+                    );
+                    mobileLink.classList.add(
+                        'bg-blue-100', 
+                        'text-blue-600', 
+                        'px-6', 
+                        'py-2', 
+                        'rounded-full', 
+                        'hover:bg-blue-200'
+                    );
+                }
+                
+                mobileNavLinksContainer.appendChild(mobileLink);
+            });
+
+            mobileNav.appendChild(mobileNavLinksContainer);
+        }
+
+        // Append to body
+        nav.appendChild(mobileMenuToggle);
+        document.body.appendChild(mobileNav);
+
+        // Toggle mobile menu
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileNav.classList.toggle('translate-x-full');
+            mobileNav.classList.toggle('translate-x-0');
         });
 
-        mobileNav.appendChild(mobileNavLinksContainer);
+        // Close mobile menu when a link is clicked
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.add('translate-x-full');
+                mobileNav.classList.remove('translate-x-0');
+            });
+        });
     }
 
-    // Append mobile menu toggle and navigation to body
-    nav.appendChild(mobileMenuToggle);
-    document.body.appendChild(mobileNav);
-
-    // Toggle mobile menu
-    mobileMenuToggle.addEventListener('click', function() {
-        mobileNav.classList.toggle('active');
-        this.classList.toggle('active');
-    });
-
-    // Close mobile menu when a link is clicked
-    mobileNav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function() {
-            mobileNav.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
-        });
-    });
-
-    // Add media query to show/hide mobile menu toggle
+    // Media query styles
     const style = document.createElement('style');
     style.textContent = `
         @media (min-width: 768px) {
             .mobile-menu-toggle, .mobile-nav {
                 display: none !important;
             }
+            .nav-links {
+                display: flex !important;
+            }
         }
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                display: none !important;
             }
         }
     `;
